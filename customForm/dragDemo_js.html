@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/drag.js"></script>
+		<style>
+		    .box
+		    {
+		    	position:relative;
+		    	width:100px;
+		    	height:100px;
+		    	margin:20px;
+		    	background-color:blue
+		    }
+		    .item
+		    {
+		    	position:absolute;
+		    	/*left:10px;
+		    	top:20px;*/
+		    	width:10px;
+		    	height:10px;
+		    	background-color:red;
+		    	cursor:pointer;
+		    }
+		</style>
+
+	</head>
+	<body>
+		<div class="box">
+			<div id="item" class="item" style="left:20px;top:20px">
+				
+				
+			</div>
+			<div id="item1" class="item" >
+				
+				
+			</div>
+		</div>
+		<script>
+		window.onload=function()
+		{
+			  drag("item");
+			  drag("item1");
+		};
+		   
+		</script>
+	</body>
+</html>
