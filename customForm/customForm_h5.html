@@ -3,7 +3,81 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<script type="text/javascript"   src="js/customForm_h5.js"></script>
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/customForm_h5.css"/>
+		<script>
+		window.onload=function()
+        {
+        	drag
+        	(
+        		{
+	        		dragArea:"dragArea",
+				    dropArea:"dropArea"
+        	    }
+        	)
+        }
+		</script>
 	</head>
 	<body>
+	   <div class="customForm">
+	   	   <div class="leftForm">
+	   	   		<div class="box clearfix">
+	   	   			<div class="block">
+	   	   	    	    <div class="name">表单</div>
+	   	   	    	    <div class="circle blue"></div>
+	   	   	        </div>
+	   	   			<form class="blue" id="dropArea">
+	   	   				  <!--<div class="circle"></div>-->
+						  <div class="form-group">
+						    <label for="exampleInputEmail1">Email address</label>
+						    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+						  </div>
+					</form>
+	   	   		</div>
+	   	   		<div class="operate">
+	   	   			<div class="block">
+	   	   	    	    <div class="name">操作</div>
+	   	   	    	    <div class="circle lightblue"></div>
+	   	   	        </div>
+	   	   	        <div class="button lightblue">
+	   	   	        	<div class="center">
+							<button type="button" class="btn btn-primary" onclick="preview()">预览</button>
+						    <button type="button" class="btn btn-success" onclick="submitjson()">提交</button>
+						</div>
+					</div>
+			    </div>
+	   	   </div>
+	   	   <div class="rightForm" >
+	   	   		<form id="dragArea">
+					  <div class="form-group">
+					    <label >单行文本</label>
+					    <input type="text" class="form-control"  placeholder="单行文本">
+					  </div>
+					  
+					  <div class="form-group">
+					    <label>文本域</label>
+					    <textarea class="form-control" rows="3"  placeholder="文本域"></textarea>
+					  </div>
+					  
+					  <div class="form-group">
+					    <label>文件上传</label>
+					    <input type="file" >
+					  </div>
+					  
+					  <div class="form-group">
+					    <label>
+					      <input type="checkbox" checked>复选框
+					    </label>
+					  </div>  
+					  
+					  <div class="form-group">
+						  <label>
+						    <input type="radio" checked>单选框
+						  </label>
+					 </div>
+				</form>
+	   	   </div>
+	   </div>
 	</body>
 </html>

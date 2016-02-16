@@ -1,0 +1,157 @@
+@utf-8
+*
+{
+	margin:0;
+	padding:0;
+	font-size:16px;
+	color:black;
+	font-family:"microsoft yahei", "Helvetica Neue",Helvetica,Arial,sans-serif; 
+}
+
+body
+{
+	min-width:737px
+}
+
+.customForm
+{
+	width:100%;
+}
+.customForm > *
+{
+	float:left;
+	padding:20px
+}
+
+.leftForm
+{
+	width:60%;
+}
+
+.rightForm
+{
+	background-color: #F6F7F8;
+	width:40%;
+	height: 100%;
+    position: fixed;
+    right: 0;
+}
+
+.box
+{
+	/*padding-left:10px;*/
+    /*width:80%;*/
+    /*border-left:1px solid #4483EB;*/
+    /*min-height:300px;*/
+    height:auto;
+    position:relative;
+}
+
+.box >*
+{
+	/*float:left;*/
+}
+
+.box form
+{
+	width:90%;
+	border-left: 2px solid;
+	padding:10px;
+    height: auto;
+    min-height:300px;
+    /*position: absolute;*/
+    /*right: 0;*/
+   float: right;
+}
+
+.circle
+{
+	width:10px;
+	height:10px;
+	border-radius: 10px;
+	border:2px solid;
+	right:0;
+    margin-right: -6px;
+    margin-top: 5px;
+    position: absolute;
+    background-color: white;
+    z-index: 99;
+}
+
+.block
+{
+	width:10%;
+	position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    height: 20px;
+}
+
+.block .name
+{
+	float:left;
+}
+
+.block .circle
+{
+	float:right;
+}
+
+.blue 
+{
+	border-color: #4483EB !important;
+}
+
+.lightblue 
+{
+    border-color: #66CCFF !important;
+}
+
+
+.operate
+{
+	/*padding-left: 10px;*/
+	position:relative;
+	height:50px;
+}
+
+.operate .button
+{
+	width: 90%;
+    border-left: 2px solid;
+    padding: 10px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+}
+
+.button .center
+{
+   width:200px;
+   margin:0 auto;	
+   line-height:25px
+}
+
+.button button
+{
+	width: 90px;
+	height: 25px;
+	line-height: 25px;
+	padding: 0;
+	margin-left:8px;
+}
+
+.clearfix:after 
+{
+
+content: " ";
+
+display: block;
+
+height: 0;
+
+clear: both;
+
+visibility: hidden;
+
+}

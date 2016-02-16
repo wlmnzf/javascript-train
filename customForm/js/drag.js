@@ -60,17 +60,17 @@ function drag(id)
 	
 	function dragEnd(e) 
 	  	{
-                if (target.releaseCapture) 
-                {
-                    target.releaseCapture();
-                }
-                else if (window.releaseEvents) 
-                {
-                    window.releaseEvents(Event.MOUSEMOVE | Event.MOUSEUP);
-                }
+//              if (target.releaseCapture) 
+//              {
+//                  target.releaseCapture();
+//              }
+//              else if (window.releaseEvents) 
+//              {
+//                  window.releaseEvents(Event.MOUSEMOVE | Event.MOUSEUP);
+//              }
                 //target.removeEventListener("mousedown",dragStart);
-                document.removeEventListener("mousemove",dragMove)
-                document.removeEventListener("mouseup",dragEnd)
+               document.removeEventListener("mousemove",dragMove)
+               document.removeEventListener("mouseup",dragEnd)
      	}
 	  
 	function dragMove(e) 
@@ -87,14 +87,14 @@ function drag(id)
 	
 	function dragStart(e) 
 		{
-		            if (target.setCapture) 
-		            {
-		                target.setCapture();
-		            }
-		            else if (window.captureEvents) 
-		            {
-		                window.captureEvents(Event.MOUSEMOVE | Event.MOUSEUP);
-		            }
+//		            if (target.setCapture) 
+//		            {
+//		                target.setCapture();
+//		            }
+//		            else if (window.captureEvents) 
+//		            {
+//		                window.captureEvents(Event.MOUSEMOVE | Event.MOUSEUP);
+//		            }
 		            positionParam.Location=control.getPageLocation();
 		            //positionParam.Left=control.empty(target.style.left)?0:parseInt(target.style.left.replace("px",""));
 		           //positionParam.Top=control.empty(target.style.top)?0:parseInt(target.style.top.replace("px",""));
