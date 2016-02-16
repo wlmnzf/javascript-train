@@ -37,6 +37,11 @@ body
     right: 0;
 }
 
+.rightForm form
+{
+	 height:100%;
+}
+
 .box
 {
 	/*padding-left:10px;*/
@@ -62,6 +67,7 @@ body
     /*position: absolute;*/
     /*right: 0;*/
    float: right;
+  
 }
 
 .circle

@@ -16,6 +16,7 @@ function drag(o)
 	{
 		index:-1,
 		deraction:0,
+		flag:-1,
 	}
 	
 	var dragTarget;
@@ -60,7 +61,7 @@ function drag(o)
 		   if ( parent.lastChild == targetElement )
 		   {
 		        // 如果最后的节点是目标元素，则直接添加。因为默认是最后
-		        parent.a( newElement );
+		        parent.appendChild( newElement );
 		   }
 		   else
 		   {
@@ -89,10 +90,35 @@ function drag(o)
 		{
 			return o.currentStyle? o.currentStyle[key] : document.defaultView.getComputedStyle(o,false)[key]; 	
 		}
-			
+	
+	var preventDefault=function(e)
+	{
+		e.preventDefault();
+	}
+	
+	var dragOut=function(e)
+	{
+		e.preventDefault();
+		if(deraction.flag==2)
+		{
+			dragTarget.parentNode.removeChild(dragTarget);
+			setBorderDefault();
+		}
+		
+	}
+	
 	var dragStart=function (e)
 			{
 				dragTarget=e.target;
+				if(dragTarget.parentNode.id==options.dragArea)
+				{
+					deraction.flag=1;
+				}
+				else
+				{
+					deraction.flag=2;
+					target.dragArea.addEventListener("dragover",preventDefault);
+				}
 //			    positionParam.Location=getPageLocation();
 //		        positionParam.Left=getCss(e.target,"left")=="auto"?0:parseInt(getCss(e.target,"left").replace("px",""));
 //		        positionParam.Top=getCss(e.target,"top")=="auto"?0:parseInt(getCss(e.target,"top").replace("px",""));
@@ -117,6 +143,10 @@ function drag(o)
 		  		else
 		  		{
 		  			index=0;
+		  			deraction["deraction"]=0;
+		  			deraction["index"]=-1;
+		  			deraction["flag"]=1;
+		  			return;
 		  		}
 		  		
 		  		//第一个被拖进来的元素
@@ -144,7 +174,13 @@ function drag(o)
 		  			deraction["index"]=-1;
 		  		}
 		   }
-		   
+	
+	var dragEnd=function(e)
+	{
+		setBorderDefault();
+		target.dragArea.removeEventListener("dragover",preventDefault);
+	}
+	
 	var drop=function(e)
 		  {
 		  	    e.preventDefault();
@@ -153,13 +189,42 @@ function drag(o)
 		  	    	var index=deraction.index;
 		  	    	if(deraction.deraction>0)
 		  	    	{
-		  	    		insertAfter(dragTarget.cloneNode(true),target.dropArea.children[index]);
+		  	    		var node;
+		  	    		if(deraction.flag==1)
+		  	    		{
+		  	    			node=dragTarget.cloneNode(true);
+		  	    			node.addEventListener("dragstart",dragStart);
+		  	    			node.addEventListener("dragend",dragEnd);
+		  	    		}
+		  	    		else
+		  	    		{
+		  	    			node=dragTarget
+		  	    		}
+		  	    		insertAfter(node,target.dropArea.children[index]);
 		  	    	}
 		  	    	else if(deraction.deraction<0)
 		  	    	{
-		  	    		insertBefore(dragTarget.cloneNode(true),target.dropArea.children[index]);
+		  	    		var node;
+		  	    		if(deraction.flag==1)
+		  	    		{
+		  	    			node=dragTarget.cloneNode(true);
+		  	    			node.addEventListener("dragstart",dragStart);
+		  	    			node.addEventListener("dragend",dragEnd);
+		  	    		}
+		  	    		else
+		  	    		{
+		  	    			node=dragTarget
+		  	    		}
+		  	    		insertBefore(node,target.dropArea.children[index]);
 		  	    	}
 		  	    	//target.dropArea=document.getElementById("dropArea");
+		  	    }
+		  	    else if(deraction.flag==1)
+		  	    {
+		  	    	var node=dragTarget.cloneNode(true);
+		  	    	node.addEventListener("dragstart",dragStart);
+		  	    	node.addEventListener("dragend",dragEnd);
+		  	    	target.dropArea.appendChild(node)
 		  	    }
 		  	    deraction.index=-1;
 		  	    setBorderDefault();
@@ -178,11 +243,13 @@ function drag(o)
 	    if(!empty(options.dragArea))
 	    {
 	        target.dragArea=getTarget(options.dragArea);
+	        target.dragArea.addEventListener("drop",dragOut);
 	        if(target.dragArea.children.length>0)
 	           for(var i=0;i<target.dragArea.children.length;i++)
 	           {
 	           	    target.dragArea.children[i].setAttribute("draggable", "true");
 	           	    target.dragArea.children[i].addEventListener("dragstart",dragStart);   
+	           	    target.dragArea.children[i].addEventListener("dragend",dragEnd);   
 	           }
 	    }
 	    else
