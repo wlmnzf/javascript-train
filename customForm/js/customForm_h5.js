@@ -1,17 +1,18 @@
 function drag(o)
 {
+	//默认参数，传入的参数o之后会与之合并
 	var options=
 	{
 	   dragArea:"dragArea",
 	   dropArea:"dropArea",
 	}
-	
+   //document.getElementById捕捉到的节点
 	var target=
 	{
 	   dragArea:null,
 	   dropArea:null,
 	}
-	
+   //后面用于判断鼠标移动的时候是把元素底部的边变蓝还是上部的边变蓝
 	var deraction=
 	{
 		index:-1,
@@ -19,10 +20,10 @@ function drag(o)
 		flag:-1,
 	}
 	
+    //正在拖拽的元素
 	var dragTarget;
 	
-	var positionParam={};
-	
+
 	var empty=function(obj)
 		{
 		    if(obj==undefined||obj==null||obj=="")
@@ -45,6 +46,9 @@ function drag(o)
 	        return target;
 	    }
 	
+	//  ========== 
+	//  = 获取鼠标所在的坐标位置 = 
+	//  ========== 
 	var	getPageLocation=function (event)
 		{
 		    var e = event||window.event;
@@ -75,6 +79,10 @@ function drag(o)
 			targetElement.parentNode.insertBefore(newElement,targetElement)
 		}
 	
+	
+	//  ========== 
+	//  = 将每个表单区的上下边界恢复成原样 = 
+	//  ========== 
 	var setBorderDefault=function()
 		{
 			   if(target.dropArea.children.length>0)
@@ -86,16 +94,23 @@ function drag(o)
 		}
 	
 	
+	//  ========== 
+	//  = 获取CSS = 
+	//  ========== 
 	var getCss=function(o,key)
 		{
 			return o.currentStyle? o.currentStyle[key] : document.defaultView.getComputedStyle(o,false)[key]; 	
 		}
+	
 	
 	var preventDefault=function(e)
 	{
 		e.preventDefault();
 	}
 	
+	///  ========== 
+	//  = 将表单元素拖拽到右边删掉 = 
+	//  ========== 
 	var dragOut=function(e)
 	{
 		e.preventDefault();
@@ -107,9 +122,14 @@ function drag(o)
 		
 	}
 	
+	
+	//  ========== 
+	//  = 开始拖动 = 
+	//  ========== 
 	var dragStart=function (e)
 			{
 				dragTarget=e.target;
+				//区分拖拽的元素是要新增呢还是要交换位置，记录到flag上，1表示要新增，2表示交换位置
 				if(dragTarget.parentNode.id==options.dragArea)
 				{
 					deraction.flag=1;
@@ -119,16 +139,17 @@ function drag(o)
 					deraction.flag=2;
 					target.dragArea.addEventListener("dragover",preventDefault);
 				}
-//			    positionParam.Location=getPageLocation();
-//		        positionParam.Left=getCss(e.target,"left")=="auto"?0:parseInt(getCss(e.target,"left").replace("px",""));
-//		        positionParam.Top=getCss(e.target,"top")=="auto"?0:parseInt(getCss(e.target,"top").replace("px",""));
 			}
-		
+	
+	//  ========== 
+	//  = 拖动经过 = 
+	//  ========== 
 	var dragOver=function(e)
 		   {
 		  		e.preventDefault();
 		  		var pageLocation=getPageLocation();
 		  		var index=-1;
+		  		//检测目前鼠标正落在哪个表单元素上面
 		  		if(target.dropArea.children.length>0)
 		  		{
 		  			for(var i=0;i<target.dropArea.children.length;i++)
@@ -149,18 +170,19 @@ function drag(o)
 		  			return;
 		  		}
 		  		
-		  		//第一个被拖进来的元素
+		  		
 		  		if(index!=-1)
 		  		{
 		  				var pos=target.dropArea.children[index].getBoundingClientRect();
 		  		        setBorderDefault();
-		  				if((pos.bottom+pos.top)/2>pageLocation.y)//元素的上边距
+		  		        //鼠标落在表单元素宽度中间以上的部分，则上边变蓝
+		  				if((pos.bottom+pos.top)/2>pageLocation.y)//元素的上边变蓝
 		  				{
 		  					deraction["deraction"]=-1;
 		  					deraction["index"]=index;
 		  					target.dropArea.children[index].style.borderTop="1px solid blue";
 		  				}
-		  				else//元素的下边距
+		  				else//元素的下边变蓝
 		  				{
 		  					deraction["deraction"]=1;
 		  					deraction["index"]=index;
@@ -168,19 +190,27 @@ function drag(o)
 		  				}
 
 		  		}
-		  		else
+		  		else//当前拖拽的是第一个表单元素
 		  		{
 		  			deraction["deraction"]=0;
 		  			deraction["index"]=-1;
 		  		}
 		   }
 	
+	
+	//  ========== 
+	//  = 拖动结束 = 
+	//  ========== 
 	var dragEnd=function(e)
 	{
 		setBorderDefault();
 		target.dragArea.removeEventListener("dragover",preventDefault);
 	}
 	
+	
+	//  ========== 
+	//  = 放置 = 
+	//  ========== 
 	var drop=function(e)
 		  {
 		  	    e.preventDefault();
@@ -190,6 +220,7 @@ function drag(o)
 		  	    	if(deraction.deraction>0)
 		  	    	{
 		  	    		var node;
+		  	    		//flag为1，插入表单元素，否则就是换位置
 		  	    		if(deraction.flag==1)
 		  	    		{
 		  	    			node=dragTarget.cloneNode(true);
@@ -219,7 +250,7 @@ function drag(o)
 		  	    	}
 		  	    	//target.dropArea=document.getElementById("dropArea");
 		  	    }
-		  	    else if(deraction.flag==1)
+		  	    else if(deraction.flag==1)//第一个插入的表单元素
 		  	    {
 		  	    	var node=dragTarget.cloneNode(true);
 		  	    	node.addEventListener("dragstart",dragStart);
@@ -227,16 +258,13 @@ function drag(o)
 		  	    	target.dropArea.appendChild(node)
 		  	    }
 		  	    deraction.index=-1;
-		  	    setBorderDefault();
-//				var pageLocation=getPageLocation();
-//              var tx = pageLocation.x-positionParam.Location.x;
-//              var ty = pageLocation.y-positionParam.Location.y;
-//              var target=e.target.cloneNode(true);
-//              target.style.left = positionParam.Left+tx +"px";
-//              target.style.top = positionParam.Top+ty+"px";
+		  	  //  setBorderDefault();
 		  }
 
 	
+	//  ========== 
+	//  = 初始化 = 
+	//  ========== 
 	var init=function()
 	{
 	    extend(arguments)
@@ -269,13 +297,18 @@ function drag(o)
 	    }
 
 	}
-	
+
+	//  ========== 
+	//  = 合并参数 = 
+	//  ========== 
 	var extend=function(n)
 	{
         for(var p in n)if(!options.hasOwnProperty(p)||(options.hasOwnProperty(p)&&options[p]!=n[p]))
         	options[p]=n[p];
     }
 	
+	
+	//执行
 	if(arguments.length>1)
 	   arguments=arguments[0];
 	   
